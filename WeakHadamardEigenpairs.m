@@ -1,28 +1,25 @@
 function [V, D, WHD] = WeakHadamardEigenpairs(L)
     WHD = true;
     [V, D, multis] = EigenpairsByMultiplicity(L);
-
-    % Can you change == and ~= to tol ones?
-    multisOneIdxs = find(multis == 1);
-    multisRepIdxs = find(multis ~= 1);
-    numOnes = length(multisOneIdxs);
-    numReps = length(multisRepIdxs);
+    oneMultisIdxs = find(isequaltolLogArr(multis, 1));
+    repMultisIdxs = find(isnotequaltolLogArr(multis, 1));
+    numOnes = length(oneMultisIdxs);
+    numReps = length(repMultisIdxs);
 
     for i = 1:numOnes
-        if not(scalable101(V(:, multisOneIdxs(i))))
+        if not(scalable101(V(:, oneMultisIdxs(i))))
             WHD = false;
             V = NaN;
             return
         end
-        V(:, multisOneIdxs(i)) = scale101(V(:, multisOneIdxs(i)));
+        V(:, oneMultisIdxs(i)) = scale101(V(:, oneMultisIdxs(i)));
     end
     
     d = uniquetol2(diag(D));
-    % basis = V(:, multisOneIdxs);
+    % basis = V(:, oneMultisIdxs);
     for i = 1:numReps
-        % check that this works (don't think it does)
-        % also, multis is only k-dimensional, not n-dimensional, so indices in multisOneIdxs and multisRepIdxs won't reference correct things
-        [V(:, multisRepIdxs(i)), hasBasis_h] = WHEigenbasis(L, d(multisRepIdxs(i)), multis(multisRepIdxs(i)));
+        % check that this works (don't think so)
+        [V(:, repMultisIdxs(i)), hasBasis_h] = WHEigenbasis(L, d(repMultisIdxs(i)), multis(repMultisIdxs(i)));
         if hasBasis_h == false
             WHD = false;
             V = NaN;
@@ -30,7 +27,7 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
         end
     end
 
-    D = [D(:, multisOneIdxs), D(:, multisRepIdxs)];
+    D = [D(:, oneMultisIdxs), D(:, repMultisIdxs)];
     %V = basis;
     
     function scalable = scalable101(v)

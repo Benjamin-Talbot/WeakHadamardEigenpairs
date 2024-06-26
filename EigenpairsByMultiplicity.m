@@ -8,9 +8,15 @@ function [V, D, multis] = EigenpairsByMultiplicity(L)
     d = diag(D);
     eigvals = uniquetol2(d);
     k = length(eigvals);
-    multis = zeros(k, 1);
-    for i = 1:k
-	    multis(i) = sum(ismembertol(d, eigvals(i)));
+
+    counts = zeros(k, 1);
+    map = containers.Map(eigvals, 1:k);
+    for i = 1:n
+        counts(map(d(i))) = counts(map(d(i))) + 1;
+    end
+    multis = zeros(n, 1);
+    for i = 1:n
+	    multis(i) = counts(map(d(i)));
     end
     % me = [multis, eigvals];
     
