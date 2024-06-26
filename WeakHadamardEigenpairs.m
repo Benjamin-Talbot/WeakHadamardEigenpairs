@@ -1,10 +1,9 @@
 function [V, D, WHD] = WeakHadamardEigenpairs(L)
     WHD = true;
-    m = size(L, 1);
     [V, D, multis] = EigenpairsByMultiplicity(L);
-    d = length(multis);
+    numEigvals = length(multis);
     if not(any(multis ~= 1))
-        for j = 1:d
+        for j = 1:numEigvals
             if not(scalable101(V(:, j)))
                 basis = NaN;
                 break
@@ -24,21 +23,10 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
         end
         
         if scalable == true
-            idxs = [k; zeros(d-1, 1)];
-            slices = {1:k};
-            multisNew = [k; multis(multis ~= 1)];
-            e = length(multisNew);
-            for j = 2:e
-                idxs(j) = idxs(j-1) + multisNew(j);
-                sliceStart = idxs(j-1) + 1;
-                sliceEnd = idxs(j);
-                slices(j) = {sliceStart:sliceEnd};
-            end
-            
+            d = uniquetol(diag(D));
             basis = V(:, 1:k);
-            for j = 2:e
-                slice = cell2mat(slices(j));
-                [basis_h, hasBasis_h] = WeakHadamardBases(V(:, slice));
+            for j = 2:numEigvals
+                [basis_h, hasBasis_h] = WHEigenbasis(L, d(j), multis(j));
                 if hasBasis_h == 0
                     basis = NaN;
                     break
@@ -46,11 +34,11 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
                 basis = [basis, basis_h];
             end
         end
-        
-        V = basis;
-        if isnan(V)
-            WHD = false;
-        end
+    end
+
+    V = basis;
+    if isnan(V)
+        WHD = false;
     end
     
     function scalable = scalable101(v)
