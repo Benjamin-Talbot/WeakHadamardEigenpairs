@@ -57,8 +57,12 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
     end
     
     function scaled = scale101(v)
-        nonzeros = v(v ~= 0);
-        c = nonzeros(1);
-        scaled = v/c;
+        i = 1;
+        firstnz = v(1);
+        while isequaltol(firstnz, 0)
+            i = i + 1;
+            firstnz = v(i);
+        end
+        scaled = v/firstnz;
     end
 end
