@@ -1,44 +1,34 @@
 function [V, D, WHD] = WeakHadamardEigenpairs(L)
     WHD = true;
     [V, D, multis] = EigenpairsByMultiplicity(L);
-    numEigvals = length(multis);
-    if not(any(multis ~= 1))
-        for j = 1:numEigvals
-            if not(scalable101(V(:, j)))
-                basis = NaN;
-                break
-            end
-            V(:, j) = scale101(V(:, j));
+    multisOneIdxs = find(multis == 1);
+    multisRepIdxs = find(multis ~= 1);
+    numOnes = length(multisOneIdxs);
+    numReps = length(multisRepIdxs)
+
+    for j = 1:numOnes
+        if not(scalable101(V(:, multisOneIdxs(j))))
+            WHD = false;
+            basis = NaN;
+            break
         end
-    else
-        k = sum(multis == 1);
-        scalable = true;
-        for j = 1:k
-            if not(scalable101(V(:, j)))
-                scalable = false;
-                basis = NaN;
-                break
-            end
-            V(:, j) = scale101(V(:, j));
-        end
-        
-        if scalable == true
-            d = uniquetol(diag(D));
-            basis = V(:, 1:k);
-            for j = k+1:numEigvals
-                [basis_h, hasBasis_h] = WHEigenbasis(L, d(j), multis(j));
-                if hasBasis_h == 0
-                    basis = NaN;
-                    break
-                end
-                basis = [basis, basis_h];
-            end
-        end
+        V(:, multisOneIdxs(j)) = scale101(V(:, multisOneIdxs(j)));
     end
 
-    V = basis;
-    if isnan(V)
-        WHD = false;
+    if WHD == false
+        V = basis;
+        return
+    end
+    
+    d = uniquetol(diag(D));
+    for i = 1:numReps
+        [basis_h, hasBasis_h] = WHEigenbasis(L, d(multisRepIdxs(i)), multis(multisRepIdxs(i)));
+        if hasBasis_h == 0
+            WHD = false;
+            basis = NaN;
+            break
+        end
+        basis = [basis, basis_h];
     end
     
     function scalable = scalable101(v)
