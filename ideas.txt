@@ -1,0 +1,5 @@
+From complete list of possible 101 eigenvectors, make list of random ones of length dim eigenspace
+Randomly select an index
+Randomly select an eigenvector that you haven't used
+If the orthogonality rank went up, keep
+Otherwise, revert and try again
