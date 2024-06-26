@@ -25,7 +25,7 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
         if scalable == true
             d = uniquetol(diag(D));
             basis = V(:, 1:k);
-            for j = 2:numEigvals
+            for j = k+1:numEigvals
                 [basis_h, hasBasis_h] = WHEigenbasis(L, d(j), multis(j));
                 if hasBasis_h == 0
                     basis = NaN;
@@ -57,8 +57,12 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
     end
     
     function scaled = scale101(v)
-        nonzeros = v(v ~= 0);
-        c = nonzeros(1);
-        scaled = v/c;
+        i = 1;
+        firstnz = v(1);
+        while isequaltol(firstnz, 0)
+            i = i + 1;
+            firstnz = v(i);
+        end
+        scaled = v/firstnz;
     end
 end
