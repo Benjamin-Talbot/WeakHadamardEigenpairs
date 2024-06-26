@@ -1,35 +1,37 @@
 function [V, D, WHD] = WeakHadamardEigenpairs(L)
     WHD = true;
     [V, D, multis] = EigenpairsByMultiplicity(L);
+
+    % Can you change == and ~= to tol ones?
     multisOneIdxs = find(multis == 1);
     multisRepIdxs = find(multis ~= 1);
     numOnes = length(multisOneIdxs);
-    numReps = length(multisRepIdxs)
+    numReps = length(multisRepIdxs);
 
-    for j = 1:numOnes
-        if not(scalable101(V(:, multisOneIdxs(j))))
+    for i = 1:numOnes
+        if not(scalable101(V(:, multisOneIdxs(i))))
             WHD = false;
-            basis = NaN;
-            break
+            V = NaN;
+            return
         end
-        V(:, multisOneIdxs(j)) = scale101(V(:, multisOneIdxs(j)));
-    end
-
-    if WHD == false
-        V = basis;
-        return
+        V(:, multisOneIdxs(i)) = scale101(V(:, multisOneIdxs(i)));
     end
     
-    d = uniquetol(diag(D));
+    d = uniquetol2(diag(D));
+    % basis = V(:, multisOneIdxs);
     for i = 1:numReps
-        [basis_h, hasBasis_h] = WHEigenbasis(L, d(multisRepIdxs(i)), multis(multisRepIdxs(i)));
-        if hasBasis_h == 0
+        % check that this works (don't think it does)
+        % also, multis is only k-dimensional, not n-dimensional, so indices in multisOneIdxs and multisRepIdxs won't reference correct things
+        [V(:, multisRepIdxs(i)), hasBasis_h] = WHEigenbasis(L, d(multisRepIdxs(i)), multis(multisRepIdxs(i)));
+        if hasBasis_h == false
             WHD = false;
-            basis = NaN;
-            break
+            V = NaN;
+            return
         end
-        basis = [basis, basis_h];
     end
+
+    D = [D(:, multisOneIdxs), D(:, multisRepIdxs)];
+    %V = basis;
     
     function scalable = scalable101(v)
         scalable = true;
@@ -47,11 +49,11 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
     end
     
     function scaled = scale101(v)
-        i = 1;
+        idx = 1;
         firstnz = v(1);
         while isequaltol(firstnz, 0)
-            i = i + 1;
-            firstnz = v(i);
+            idx = idx + 1;
+            firstnz = v(idx);
         end
         scaled = v/firstnz;
     end

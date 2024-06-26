@@ -6,7 +6,8 @@ function [V, D, multis] = EigenpairsByMultiplicity(L)
     % VD(:, :, 2) = D;
     
     d = diag(D);
-    eigvals = uniquetol(d); k = length(eigvals);
+    eigvals = uniquetol2(d);
+    k = length(eigvals);
     multis = zeros(k, 1);
     for i = 1:k
 	    multis(i) = sum(ismembertol(d, eigvals(i)));
