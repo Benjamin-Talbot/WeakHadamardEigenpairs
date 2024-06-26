@@ -1,21 +1,11 @@
-function [basis, hasBasis]  = WeakHadamardBases(X)
-    [m, n] = size(X);
-    [V, ct] = LinearlyIndependent101s(m);
-    idxsDelete = [];
-    for k = 1:ct
-        if not(isinspan(V(:, k), X))
-            idxsDelete = [idxsDelete, k];
-            ct = ct - 1;
-        end
-    end
-    
-    V(:, idxsDelete) = [];
+function [basis, hasBasis]  = WHEigenbasis(L, lambda, dim)
+    [V, ct] = Eigenvecs101(L, lambda);
 
-    if size(V, 2) < n
+    if size(V, 2) < dim
         basis = NaN;
         hasBasis = false;
-    elseif n <= 2 
-        basis = V(:, 1:n);
+    elseif dim <= 2
+        basis = V(:, 1:dim);
         hasBasis = true;
     else
         idxsAll = 1:ct;
@@ -24,7 +14,7 @@ function [basis, hasBasis]  = WeakHadamardBases(X)
         
         for j = 1:numStart
             idxsCombo = idxsStartOptions(j, :);
-            [idxsBasis, hasBasis] = dfs(ct, n, idxsCombo, V);
+            [idxsBasis, hasBasis] = dfs(ct, dim, idxsCombo, V);
             if hasBasis == true
                 break
             end
@@ -35,24 +25,38 @@ function [basis, hasBasis]  = WeakHadamardBases(X)
         end
     end
     
-    function [idxsFinal, quasi] = dfs(ct, n, idxsCombo, X)
+    function [idxsFinal, quasi] = dfs(n, k, idxsCombo, X)
         sizeCombo = length(idxsCombo); combo = X(:, idxsCombo);
         if not(isQuasiOrthogonalizable(combo))
             idxsFinal = NaN;
             quasi = false;
             return;
-        elseif sizeCombo == n
+        elseif sizeCombo == k
             idxsFinal = idxsCombo;
             quasi = true;
             return;
         end
         
         last = idxsCombo(end);
-        for idxNext = last:ct
-            [idxsFinal, quasi] = dfs(ct, n, [idxsCombo, idxNext], X);
+        for idxNext = last:n
+            [idxsFinal, quasi] = dfs(n, k, [idxsCombo, idxNext], X);
             if quasi == true
                 return;
             end
         end
+    end
+
+    function [V, ct] = Eigenvecs101(L, lambda)
+        m = size(L, 2);
+        [V, ct] = LinearlyIndependent101s(m);
+        idxsDelete = []; max = ct;
+        for v = 1:max
+            vec = V(:, v);
+            if L*vec ~= lambda*vec
+                idxsDelete = [idxsDelete, v];
+                ct = ct - 1;
+            end
+        end
+        V(:, idxsDelete) = [];
     end
 end
