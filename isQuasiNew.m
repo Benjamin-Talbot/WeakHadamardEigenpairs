@@ -35,6 +35,7 @@ function quasi = isQuasiNew(X)
         end
     end
 
+    % row_sums > 2 already checked in orthograph complement section above
     if sum(row_sums <= 1) < 2
         path = false;
     else
