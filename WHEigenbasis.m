@@ -38,7 +38,7 @@ function [basis, hasBasis]  = WHEigenbasis(L, lambda, dim)
         end
         
         last = idxsCombo(end);
-        for idxNext = last:n
+        for idxNext = last+1:n
             [idxsFinal, quasi] = dfs(n, k, [idxsCombo, idxNext], X);
             if quasi == true
                 return;
