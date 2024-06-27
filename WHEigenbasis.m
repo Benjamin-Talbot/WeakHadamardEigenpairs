@@ -28,7 +28,7 @@ function [basis, hasBasis]  = WHEigenbasis(L, lambda, dim)
     function [idxsFinal, quasi] = dfs(n, k, idxsCombo, X)
         sizeCombo = length(idxsCombo); combo = X(:, idxsCombo);
         if not(isQuasiOrthogonalizable(combo))
-            idxsFinal = NaN;
+            idxsFinal = [];
             quasi = false;
             return;
         elseif sizeCombo == k
