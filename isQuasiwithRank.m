@@ -10,14 +10,22 @@ function [quasi, rank] = isQuasiwithRank(X)
         for k = (j+1):n
             if not(isequaltol(X(:, j)'*X(:, k), 0))
                 rank = rank - 1;
-                for idx = [j, k]
-                    if adjList(idx, 1) == 0
-                        adjList(idx, 1) = 1;
-                    elseif adjList(idx, 2) == 0
-                        adjList(idx, 2) = 1;
-                    else
-                        quasi = false;
-                    end
+                if adjList(j, 1) == 0
+                    adjList(j, 1) = k;
+                elseif adjList(j, 2) == 0
+                    adjList(j, 2) = k;
+                else
+                    quasi = false;
+                    return
+                end
+
+                if adjList(k, 1) == 0
+                    adjList(k, 1) = j;
+                elseif adjList(k, 2) == 0
+                    adjList(k, 2) = j;
+                else
+                    quasi = false;
+                    return
                 end
             end
         end
@@ -73,6 +81,7 @@ function [quasi, rank] = isQuasiwithRank(X)
                     break
                 end
             end
+            ct = ct + 1;
         end
     end
 
