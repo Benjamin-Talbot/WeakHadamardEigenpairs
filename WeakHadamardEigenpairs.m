@@ -43,7 +43,7 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
     
     function scalable = scalable101(v)
         scalable = true;
-        nonzeros = v(v ~= 0);
+        nonzeros = v(not(ismembertol(v, 0)));
         a = length(nonzeros);
         if a > 1
             magnitude = abs(nonzeros(1));
