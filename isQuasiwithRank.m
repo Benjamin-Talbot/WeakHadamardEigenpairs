@@ -55,6 +55,8 @@ function [quasi, rank] = isQuasiwithRank(X)
                 end
             end
         end
+
+        quasi = path;
     end
     
     % Iteratively visits and marks each node of A (if not
@@ -73,8 +75,6 @@ function [quasi, rank] = isQuasiwithRank(X)
             end
         end
     end
-
-    quasi = path;
 
     % END: isPathSubgraph
 end
