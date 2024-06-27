@@ -67,6 +67,7 @@ function quasi = isQuasiOrthogonalizable(X)
                     break
                 end
             end
+            ct = ct + 1;
         end
     end
 
