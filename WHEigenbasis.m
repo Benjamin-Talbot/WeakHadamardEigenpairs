@@ -52,7 +52,7 @@ function [basis, hasBasis]  = WHEigenbasis(L, lambda, dim)
         idxsDelete = []; max = ct;
         for v = 1:max
             vec = V(:, v);
-            if L*vec ~= lambda*vec
+            if not(isequaltol(L*vec, lambda*vec))
                 idxsDelete = [idxsDelete, v];
                 ct = ct - 1;
             end
