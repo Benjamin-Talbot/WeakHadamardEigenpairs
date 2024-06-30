@@ -6,12 +6,11 @@ Created on Tue Jun 25 17:03:40 2024
 @author: luismbvarona
 """
 from numpy import array, save
-from sage.all import *
+from sage.all import graphs
 from scipy.io import savemat
 
 L10s = []
-f = lambda g: g.is_connected()
-for G in filter(f, graphs(10)):
+for G in graphs.nauty_geng("10 -c"):
     L = array(G.kirchhoff_matrix())
     L10s.append(L)
 
