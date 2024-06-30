@@ -1,9 +1,21 @@
 function [V, D, multis] = EigenpairsByMultiplicity(L)
-    n = size(L, 1); [V, D] = eig(L);
+% EIGENPAIRSBYMULTIPLICITY  Compute and sort the eigenpairs of a matrix by multiplicity (with tolerance).
+%   V = EigenpairsByMultiplicity(L) returns the eigenvectors of the matrix L.
+%   [V, D] = EigenpairsByMultiplicity(L) returns the eigenvectors and eigenvalues of the matrix L.
+%   [V, D, multis] = EigenpairsByMultiplicity(L) returns the eigenvectors, eigenvalues, and multiplicities of the matrix L.
+
+    % Computes the standard normal eigenvectors and eigenvalues of the matrix L.
+    [V, D] = eig(L);
+    % Stores the number of rows of L.
+    n = size(L, 1);
+    % Initializes the matrix VD as a 3D array with dimensions n x n x 2.
     VD = zeros(n, n, 2);
+    % Assigns the eigenvectors and eigenvalues to the first and second 2D slices of VD, respectively.
     VD(:, :, 1) = V; VD(:, :, 2) = D;
     
+    % Creates a 1D array of the eigenvalues of L (with repetitions included).
     d = diag(D);
+    % Meow
     eigvals = uniquetol(d); k = length(eigvals);
     multis = zeros(k, 1);
     for i = 1:k
