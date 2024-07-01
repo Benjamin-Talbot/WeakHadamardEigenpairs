@@ -23,7 +23,7 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
         end
         
         if scalable == true
-            d = uniquetol(diag(D));
+            d = uniquetol2(diag(D));
             basis = V(:, 1:k);
             for j = k+1:numEigvals
                 [basis_h, hasBasis_h] = WHEigenbasis(L, d(j), multis(j));
