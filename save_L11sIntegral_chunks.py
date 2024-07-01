@@ -69,7 +69,11 @@ def saveIntegralChunks(chunkNumStart: 'int', chunkNumEnd: 'int'):
             if k % (2*10**5) == 0:
                 print('k = ' + str(int(k/10**3)) + ' thousand')
         
-        L11sIntegral_chunk = np.array(L11sIntegral_chunk).transpose()
+        if L11sIntegral_chunk == []:
+            L11sIntegral_chunk = np.empty((11, 11, 0), int)
+        else:
+            L11sIntegral_chunk = np.array(L11sIntegral_chunk).transpose()
+        
         with open(filename, 'wb') as file:
             np.save(file, L11sIntegral_chunk)
         print('\nSaved filtered bundle to ' + filename)
