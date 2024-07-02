@@ -52,7 +52,7 @@ def generate_connect(n: 'int'):
     if n not in range(3, 11):
         raise ValueError("The graph order 'n' must be between 3 and 10.")
     
-    return graphs.nauty_geng(str(n) + " -c")
+    return graphs.nauty_geng(str(n) + " -c -l")
 
 def main():
     cwd = os.getcwd()
@@ -67,7 +67,7 @@ def main():
         Laplacians = []
         
         for g in graphGenerator:
-            L = g.canonical_label().kirchhoff_matrix()
+            L = g.kirchhoff_matrix()
             if isIntArrTol(np.linalg.eigvals(L)):
                 Laplacians.append(L)
         
