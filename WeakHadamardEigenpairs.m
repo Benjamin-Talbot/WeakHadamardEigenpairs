@@ -1,10 +1,9 @@
 function [V, D, WHD] = WeakHadamardEigenpairs(L)
     WHD = true;
-    m = size(L, 1);
     [V, D, multis] = EigenpairsByMultiplicity(L);
-    d = length(multis);
+    numEigvals = length(multis);
     if not(any(multis ~= 1))
-        for j = 1:d
+        for j = 1:numEigvals
             if not(scalable101(V(:, j)))
                 basis = NaN;
                 break
@@ -24,21 +23,10 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
         end
         
         if scalable == true
-            idxs = [k; zeros(d-1, 1)];
-            slices = {1:k};
-            multisNew = [k; multis(multis ~= 1)];
-            e = length(multisNew);
-            for j = 2:e
-                idxs(j) = idxs(j-1) + multisNew(j);
-                sliceStart = idxs(j-1) + 1;
-                sliceEnd = idxs(j);
-                slices(j) = {sliceStart:sliceEnd};
-            end
-            
+            d = uniquetol2(diag(D));
             basis = V(:, 1:k);
-            for j = 2:e
-                slice = cell2mat(slices(j));
-                [basis_h, hasBasis_h] = WeakHadamardBases(V(:, slice));
+            for j = k+1:numEigvals
+                [basis_h, hasBasis_h] = WHEigenbasis(L, d(j), multis(j));
                 if hasBasis_h == 0
                     basis = NaN;
                     break
@@ -46,16 +34,16 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
                 basis = [basis, basis_h];
             end
         end
-        
-        V = basis;
-        if isnan(V)
-            WHD = false;
-        end
+    end
+
+    V = basis;
+    if isnan(V)
+        WHD = false;
     end
     
     function scalable = scalable101(v)
         scalable = true;
-        nonzeros = v(v ~= 0);
+        nonzeros = v(not(ismembertol(v, 0)));
         a = length(nonzeros);
         if a > 1
             magnitude = abs(nonzeros(1));
@@ -69,8 +57,12 @@ function [V, D, WHD] = WeakHadamardEigenpairs(L)
     end
     
     function scaled = scale101(v)
-        nonzeros = v(v ~= 0);
-        c = nonzeros(1);
-        scaled = v/c;
+        i = 1;
+        firstnz = v(1);
+        while isequaltol(firstnz, 0)
+            i = i + 1;
+            firstnz = v(i);
+        end
+        scaled = v/firstnz;
     end
 end
