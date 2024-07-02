@@ -31,27 +31,19 @@ def isIntArrTol(a: 'np.ndarray'):
 
 def generate_connect(n: 'int'):
     '''
-    Returns a generator for all simple, connected graphs of order 'n'.
+    Returns a generator for all simple, connected graphs of order 'n' with
+    (nauty's) canonical labeling.
 
     Parameters
     ----------
     n : 'int'
         DESCRIPTION.
 
-    Raises
-    ------
-    ValueError
-        DESCRIPTION.
-
     Returns
     -------
     generator
         DESCRIPTION.
-
     '''
-    if n not in range(3, 11):
-        raise ValueError("The graph order 'n' must be between 3 and 10.")
-    
     return graphs.nauty_geng(str(n) + " -c -l")
 
 def main():
