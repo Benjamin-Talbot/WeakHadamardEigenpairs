@@ -11,11 +11,11 @@ end
 relpath = pwd + "/LaplaciansWHD_3to10/";
 %% 
 LaplaciansIntegral_3 = double(LaplaciansIntegral_3);
-numIntegral3 = size(LaplaciansIntegral_3, 3);
+numIntegral_3 = size(LaplaciansIntegral_3, 3);
 idxsWHD_3 = [];
 eigvecsWHD_3 = []; eigvalsWHD_3 = [];
 
-for k = 1:numIntegral3
+for k = 1:numIntegral_3
     L = LaplaciansIntegral_3(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
@@ -30,11 +30,11 @@ filename = relpath + "LaplaciansWHD_3/LaplaciansWHD_3.mat";
 save(filename, "LaplaciansWHD_3", "eigvecsWHD_3", "eigvalsWHD_3")
 %% 
 LaplaciansIntegral_4 = double(LaplaciansIntegral_4);
-numIntegral4 = size(LaplaciansIntegral_4, 3);
+numIntegral_4 = size(LaplaciansIntegral_4, 3);
 idxsWHD_4 = [];
 eigvecsWHD_4 = []; eigvalsWHD_4 = [];
 
-for k = 1:numIntegral4
+for k = 1:numIntegral_4
     L = LaplaciansIntegral_4(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
@@ -49,11 +49,11 @@ filename = relpath + "LaplaciansWHD_4/LaplaciansWHD_4.mat";
 save(filename, "LaplaciansWHD_4", "eigvecsWHD_4", "eigvalsWHD_4")
 %% 
 LaplaciansIntegral_5 = double(LaplaciansIntegral_5);
-numIntegral5 = size(LaplaciansIntegral_5, 3);
+numIntegral_5 = size(LaplaciansIntegral_5, 3);
 idxsWHD_5 = [];
 eigvecsWHD_5 = []; eigvalsWHD_5 = [];
 
-for k = 1:numIntegral5
+for k = 1:numIntegral_5
     L = LaplaciansIntegral_5(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
@@ -68,11 +68,11 @@ filename = relpath + "LaplaciansWHD_5/LaplaciansWHD_5.mat";
 save(filename, "LaplaciansWHD_5", "eigvecsWHD_5", "eigvalsWHD_5")
 %% 
 LaplaciansIntegral_6 = double(LaplaciansIntegral_6);
-numIntegral6 = size(LaplaciansIntegral_6, 3);
+numIntegral_6 = size(LaplaciansIntegral_6, 3);
 idxsWHD_6 = [];
 eigvecsWHD_6 = []; eigvalsWHD_6 = [];
 
-for k = 1:numIntegral6
+for k = 1:numIntegral_6
     L = LaplaciansIntegral_6(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
@@ -87,11 +87,11 @@ filename = relpath + "LaplaciansWHD_6/LaplaciansWHD_6.mat";
 save(filename, "LaplaciansWHD_6", "eigvecsWHD_6", "eigvalsWHD_6")
 %% 
 LaplaciansIntegral_7 = double(LaplaciansIntegral_7);
-numIntegral7 = size(LaplaciansIntegral_7, 3);
+numIntegral_7 = size(LaplaciansIntegral_7, 3);
 idxsWHD_7 = [];
 eigvecsWHD_7 = []; eigvalsWHD_7 = [];
 
-for k = 1:numIntegral7
+for k = 1:numIntegral_7
     L = LaplaciansIntegral_7(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
@@ -106,11 +106,11 @@ filename = relpath + "LaplaciansWHD_7/LaplaciansWHD_7.mat";
 save(filename, "LaplaciansWHD_7", "eigvecsWHD_7", "eigvalsWHD_7")
 %% 
 LaplaciansIntegral_8 = double(LaplaciansIntegral_8);
-numIntegral8 = size(LaplaciansIntegral_8, 3);
+numIntegral_8 = size(LaplaciansIntegral_8, 3);
 idxsWHD_8 = [];
 eigvecsWHD_8 = []; eigvalsWHD_8 = [];
 
-for k = 1:numIntegral8
+for k = 1:numIntegral_8
     L = LaplaciansIntegral_8(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
@@ -125,11 +125,11 @@ filename = relpath + "LaplaciansWHD_8/LaplaciansWHD_8.mat";
 save(filename, "LaplaciansWHD_8", "eigvecsWHD_8", "eigvalsWHD_8")
 %% 
 LaplaciansIntegral_9 = double(LaplaciansIntegral_9);
-numIntegral9 = size(LaplaciansIntegral_9, 3);
+numIntegral_9 = size(LaplaciansIntegral_9, 3);
 idxsWHD_9 = [];
 eigvecsWHD_9 = []; eigvalsWHD_9 = [];
 
-for k = 1:numIntegral9
+for k = 1:numIntegral_9
     L = LaplaciansIntegral_9(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
@@ -144,11 +144,11 @@ filename = relpath + "LaplaciansWHD_9/LaplaciansWHD_9.mat";
 save(filename, "LaplaciansWHD_9", "eigvecsWHD_9", "eigvalsWHD_9")
 %% 
 LaplaciansIntegral_10 = double(LaplaciansIntegral_10);
-numIntegral10 = size(LaplaciansIntegral_10, 3);
+numIntegral_10 = size(LaplaciansIntegral_10, 3);
 idxsWHD_10 = [];
 eigvecsWHD_10 = []; eigvalsWHD_10 = [];
 
-for k = 1:numIntegral10
+for k = 1:numIntegral_10
     L = LaplaciansIntegral_10(:, :, k);
     [V, D, WHD] = WeakHadamardEigenpairs(L);
     if WHD
