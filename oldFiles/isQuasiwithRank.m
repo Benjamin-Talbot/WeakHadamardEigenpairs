@@ -1,7 +1,7 @@
-function [quasi, rank] = isQuasiwithRank(X)
+function [isQuasi, orthoRank] = isQuasiwithRank(X)
     n = size(X, 2);
-    quasi = true;
-    rank = n*(n - 1)/2;
+    isQuasi = true;
+    orthoRank = n*(n - 1)/2;
 
     % BEGIN: OrthoGraphComplement
     adjList = zeros(n, 2);
@@ -9,13 +9,13 @@ function [quasi, rank] = isQuasiwithRank(X)
         %if any(not(ismembertol(X(:, j), 0)))
         for k = (j+1):n
             if not(isequaltol(X(:, j)'*X(:, k), 0))
-                rank = rank - 1;
+                orthoRank = orthoRank - 1;
                 if adjList(j, 1) == 0
                     adjList(j, 1) = k;
                 elseif adjList(j, 2) == 0
                     adjList(j, 2) = k;
                 else
-                    quasi = false;
+                    isQuasi = false;
                     return
                 end
 
@@ -24,7 +24,7 @@ function [quasi, rank] = isQuasiwithRank(X)
                 elseif adjList(k, 2) == 0
                     adjList(k, 2) = j;
                 else
-                    quasi = false;
+                    isQuasi = false;
                     return
                 end
             end
@@ -33,7 +33,7 @@ function [quasi, rank] = isQuasiwithRank(X)
     end
     % END: OrthoGraphComplement
 
-    if quasi == true
+    if isQuasi == true
         % BEGIN: isPathSubgraph
         % Determines whether the adjacency list A represents a subgraph of a path.
         path = true;
@@ -64,7 +64,7 @@ function [quasi, rank] = isQuasiwithRank(X)
             end
         end
 
-        quasi = path;
+        isQuasi = path;
     end
     
     % Iteratively visits and marks each node of A (if not
