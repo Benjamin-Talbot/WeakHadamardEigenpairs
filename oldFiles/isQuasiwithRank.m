@@ -1,7 +1,7 @@
-function [isQuasi, quasiRank] = isQuasiwithRank(X)
+function [isQuasi, orthoRank] = isQuasiwithRank(X)
     n = size(X, 2);
     isQuasi = true;
-    quasiRank = n*(n - 1)/2;
+    orthoRank = n*(n - 1)/2;
 
     % BEGIN: OrthoGraphComplement
     adjList = zeros(n, 2);
@@ -9,7 +9,7 @@ function [isQuasi, quasiRank] = isQuasiwithRank(X)
         %if any(not(ismembertol(X(:, j), 0)))
         for k = (j+1):n
             if not(isequaltol(X(:, j)'*X(:, k), 0))
-                quasiRank = quasiRank - 1;
+                orthoRank = orthoRank - 1;
                 if adjList(j, 1) == 0
                     adjList(j, 1) = k;
                 elseif adjList(j, 2) == 0
