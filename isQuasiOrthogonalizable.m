@@ -31,8 +31,6 @@ function [quasi, order] = isQuasiOrthogonalizable(X)
         %end
     end
     % END: OrthoGraphComplement
-    
-    adjList
 
     % BEGIN: isPathSubgraph
     % Determines whether the adjacency list A represents a subgraph of a path.
@@ -44,10 +42,10 @@ function [quasi, order] = isQuasiOrthogonalizable(X)
                 row_sums(i) = row_sums(i) + 1;
             end
         end
-    end
-    if row_sums(1) == 0
-        order(1) = 1;
-        orderInd = 2;
+        if i < n && row_sums(i) == 0
+            order(orderInd) = i;
+            orderInd = orderInd + 1;
+        end
     end
     if row_sums(n) == 0
         order(n) = n;
