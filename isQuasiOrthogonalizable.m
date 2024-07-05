@@ -1,4 +1,4 @@
-function [quasi, order] = isQuasiOrthogonalizable(X)
+function quasi = isQuasiOrthogonalizable(X)
     n = size(X, 2);
     order = zeros(n, 1);
     orderInd = 1;

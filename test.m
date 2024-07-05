@@ -1,4 +1,3 @@
-% cd ~/git/WeakHadamardEigenpairs
 addpath(genpath('isequaltol.m'))
 
 % A = [0 1 0 0;
@@ -39,7 +38,7 @@ end
 
 % isQuasiOrthogonalizable([v1 v2 v3 v5])
 % isQuasiOld([v1 v2 v3 v5])
-% basis = randCheck(V, n, k);
+basis = randCheck(V, n, k);
 
 % [isquasi, orank] = isQuasiwithRank([v1 v2 v3 v4])
 % [isquasi, orank] = isQuasiwithRank([v1 v2 v3 v5])
