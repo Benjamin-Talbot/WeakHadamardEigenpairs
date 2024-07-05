@@ -1,7 +1,5 @@
-function [quasi, order] = isQuasiOrthogonalizable(X)
+function quasi = isQuasiOrthogonalizable(X)
     n = size(X, 2);
-    order = zeros(n, 1);
-    orderInd = 1;
 
     % BEGIN: OrthoGraphComplement
     adjList = zeros(n, 2);
@@ -31,8 +29,6 @@ function [quasi, order] = isQuasiOrthogonalizable(X)
         %end
     end
     % END: OrthoGraphComplement
-    
-    adjList
 
     % BEGIN: isPathSubgraph
     % Determines whether the adjacency list A represents a subgraph of a path.
@@ -45,13 +41,6 @@ function [quasi, order] = isQuasiOrthogonalizable(X)
             end
         end
     end
-    if row_sums(1) == 0
-        order(1) = 1;
-        orderInd = 2;
-    end
-    if row_sums(n) == 0
-        order(n) = n;
-    end
 
     % row_sums > 2 already checked in orthograph complement section above
     if sum(row_sums <= 1) < 2
@@ -59,7 +48,7 @@ function [quasi, order] = isQuasiOrthogonalizable(X)
     else
         visited = zeros(1, n);
         for i = 1:n
-            if row_sums(i) == 1 && visited(i) == false
+            if row_sums(i) == 1
                 visited = travelPath(adjList, visited, i);
             end
         end
@@ -76,16 +65,12 @@ function [quasi, order] = isQuasiOrthogonalizable(X)
     function visited = travelPath(adjList, visited, j)
         n = size(adjList, 1);
         visited(j) = true;
-        order(orderInd) = j;
-        orderInd = orderInd + 1;
         ct = 1;
         while ct <= n
             for ind = 1:2
                 if adjList(j, ind) ~= 0 && visited(adjList(j, ind)) == false
                     visited(adjList(j, ind)) = true;
                     j = adjList(j, ind);
-                    order(orderInd) = j;
-                    orderInd = orderInd + 1;
                     break
                 end
             end
