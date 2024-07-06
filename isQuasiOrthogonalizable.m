@@ -1,5 +1,7 @@
 function quasi = isQuasiOrthogonalizable(X)
     n = size(X, 2);
+    order = zeros(n, 1);
+    orderInd = 1;
 
     % BEGIN: OrthoGraphComplement
     adjList = zeros(n, 2);
@@ -40,6 +42,13 @@ function quasi = isQuasiOrthogonalizable(X)
                 row_sums(i) = row_sums(i) + 1;
             end
         end
+        if i < n && row_sums(i) == 0
+            order(orderInd) = i;
+            orderInd = orderInd + 1;
+        end
+    end
+    if row_sums(n) == 0
+        order(n) = n;
     end
 
     % row_sums > 2 already checked in orthograph complement section above
@@ -48,7 +57,7 @@ function quasi = isQuasiOrthogonalizable(X)
     else
         visited = zeros(1, n);
         for i = 1:n
-            if row_sums(i) == 1
+            if row_sums(i) == 1 && visited(i) == false
                 visited = travelPath(adjList, visited, i);
             end
         end
@@ -65,12 +74,16 @@ function quasi = isQuasiOrthogonalizable(X)
     function visited = travelPath(adjList, visited, j)
         n = size(adjList, 1);
         visited(j) = true;
+        order(orderInd) = j;
+        orderInd = orderInd + 1;
         ct = 1;
         while ct <= n
             for ind = 1:2
                 if adjList(j, ind) ~= 0 && visited(adjList(j, ind)) == false
                     visited(adjList(j, ind)) = true;
                     j = adjList(j, ind);
+                    order(orderInd) = j;
+                    orderInd = orderInd + 1;
                     break
                 end
             end
